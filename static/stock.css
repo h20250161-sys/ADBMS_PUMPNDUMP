@@ -1,0 +1,320 @@
+/* ================================================================
+   Pump & Dump Detection System – Stock Page (White Theme)
+   ================================================================ */
+
+/* ── Stock Header ─────────────────────────────────────────────── */
+.stock-header {
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 2rem 0;
+}
+
+.stock-ticker {
+    font-size: 2.4rem;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: -1px;
+    color: #111;
+}
+
+.sector-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #0369a1;
+    background: #e0f2fe;
+    border: 1px solid #bae6fd;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+}
+
+.suspect-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #dc2626;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.stock-company {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* ── Verdict Card (top right) ─────────────────────────────────── */
+.verdict-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1.25rem 1.75rem;
+    min-width: 240px;
+    text-align: center;
+}
+
+.verdict-loading {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.verdict-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 0.25rem;
+}
+
+.verdict-text {
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.verdict-text.safe   { color: #16a34a; }
+.verdict-text.risky  { color: #ea580c; }
+.verdict-text.danger { color: #dc2626; }
+
+.verdict-sub {
+    font-size: 0.78rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+/* ── Metric Cards ─────────────────────────────────────────────── */
+.metric-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.metric-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.metric-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+}
+
+.metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: #111;
+}
+
+.metric-bar {
+    height: 4px;
+    background: #f3f4f6;
+    border-radius: 2px;
+    margin: 0.5rem 0;
+    overflow: hidden;
+}
+
+.metric-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #6366f1);
+    border-radius: 2px;
+    transition: width 1.5s ease;
+}
+
+.metric-sub {
+    font-size: 0.72rem;
+    color: #999;
+}
+
+/* ── Analysis Panel ───────────────────────────────────────────── */
+.analysis-panel {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.analysis-header {
+    background: #f9fafb;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    color: #111;
+}
+
+.analysis-body {
+    padding: 1.5rem;
+}
+
+.verdict-summary {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.verdict-icon-large {
+    width: 70px;
+    height: 70px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.verdict-icon-large.safe   { background: #f0fdf4; color: #16a34a; }
+.verdict-icon-large.risky  { background: #fff7ed; color: #ea580c; }
+.verdict-icon-large.danger { background: #fef2f2; color: #dc2626; }
+
+.verdict-headline {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: #111;
+}
+
+.verdict-explanation {
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.7;
+}
+
+.verdict-factors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.75rem;
+}
+
+.verdict-factor {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.factor-bad  { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.factor-warn { background: #fefce8; color: #ca8a04; border: 1px solid #fef08a; }
+.factor-good { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+/* ── Detail Cards ─────────────────────────────────────────────── */
+.detail-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.detail-header {
+    padding: 0.9rem 1.25rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detail-header h6 {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: #111;
+}
+
+.detail-body {
+    padding: 1.25rem;
+}
+
+/* ── Param Table ──────────────────────────────────────────────── */
+.param-table {
+    width: 100%;
+    font-size: 0.85rem;
+    border-collapse: collapse;
+}
+
+.param-table thead th {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #999;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.param-table tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #333;
+}
+
+.param-status {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+}
+
+.param-status.exceed { background: #fef2f2; color: #dc2626; }
+.param-status.normal { background: #f0fdf4; color: #16a34a; }
+
+/* ── Reasons Lists ────────────────────────────────────────────── */
+.reasons-card {
+    border-left: 3px solid transparent;
+}
+
+.reasons-positive { border-left-color: #16a34a; }
+.reasons-negative { border-left-color: #dc2626; }
+
+.reasons-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.reasons-list li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.85rem;
+    color: #444;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.6;
+}
+
+.reasons-list li:last-child {
+    border-bottom: none;
+}
+
+.reason-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ── Chart containers ─────────────────────────────────────────── */
+canvas {
+    max-width: 100%;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .stock-ticker { font-size: 1.8rem; }
+    .verdict-summary { grid-template-columns: 1fr; }
+    .verdict-icon-large { width: 50px; height: 50px; font-size: 1.5rem; }
+}

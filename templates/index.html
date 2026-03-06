@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pump and Dump Detection System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='landing.css') }}" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg" id="main-nav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                <i class="bi bi-shield-exclamation brand-ico"></i>
+                <span class="brand-name">Pump &amp; Dump Detection System</span>
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <a href="/dashboard" class="nav-link-custom">
+                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7 text-center">
+                    <h1 class="hero-title">
+                        Detect <span class="text-accent">Pump &amp; Dump</span> Schemes
+                    </h1>
+                    <p class="hero-subtitle">
+                        Search any stock or cryptocurrency to analyze whether it shows
+                        signs of market manipulation.
+                    </p>
+
+                    <div class="search-container mt-4">
+                        <div class="search-wrapper">
+                            <i class="bi bi-search search-icon"></i>
+                            <input
+                                type="text"
+                                id="search-input"
+                                class="search-input"
+                                placeholder="Search stock or crypto (e.g. AAPL, GME, BTC-USD)"
+                                autocomplete="off"
+                            >
+                        </div>
+                        <div class="search-dropdown" id="search-dropdown"></div>
+                    </div>
+
+                    <div class="quick-tags mt-3" id="quick-tags">
+                        <span class="quick-tag-label">Popular:</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-lg-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat-total-rows">—</div>
+                        <div class="stat-desc">Data Points</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number" style="color:#dc2626" id="stat-anomalies">—</div>
+                        <div class="stat-desc">Anomalies</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number" style="color:#2563eb" id="stat-tickers">—</div>
+                        <div class="stat-desc">Tickers</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number" style="color:#ca8a04" id="stat-sectors">—</div>
+                        <div class="stat-desc">Sectors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUSPECT WATCHLIST -->
+    <section class="section-white py-5">
+        <div class="container">
+            <h2 class="section-title mb-1">
+                <i class="bi bi-exclamation-triangle text-danger me-2"></i>P&amp;D Suspect Watchlist
+            </h2>
+            <p class="section-subtitle mb-4">Stocks and crypto with the highest risk scores</p>
+            <div class="row g-3" id="suspect-cards">
+                <div class="col-12 text-center text-muted py-5">
+                    <div class="spinner-border spinner-border-sm me-2"></div> Loading...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWS -->
+    <section class="section-gray py-5">
+        <div class="container">
+            <h2 class="section-title mb-1">
+                <i class="bi bi-newspaper text-secondary me-2"></i>Pump &amp; Dump in History
+            </h2>
+            <p class="section-subtitle mb-4">Notable cases that shook the markets</p>
+            <div class="row g-3" id="news-grid"></div>
+        </div>
+    </section>
+
+    <!-- ALL TICKERS -->
+    <section class="section-white py-5">
+        <div class="container">
+            <h2 class="section-title mb-1">
+                <i class="bi bi-grid-3x3-gap text-secondary me-2"></i>All Monitored Tickers
+            </h2>
+            <p class="section-subtitle mb-4">Click any ticker to view full analysis</p>
+            <div class="ticker-grid" id="all-tickers-grid"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <p class="text-muted small mb-0">Pump &amp; Dump Detection System</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const ALL_TICKERS = {{ tickers | tojson }};
+        const SECTOR_MAP  = {{ sector_map | tojson }};
+        const PND_SUSPECTS = {{ pnd_suspects | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='landing.js') }}"></script>
+</body>
+</html>

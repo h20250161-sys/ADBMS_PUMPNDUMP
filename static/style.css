@@ -1,0 +1,238 @@
+/* ================================================================
+   Market Surveillance Dashboard – Light Theme Styles
+   ================================================================ */
+
+:root {
+    --bg-body:       #f0f2f5;
+    --bg-card:       #ffffff;
+    --bg-card-hover: #f8f9fb;
+    --bg-nav:        #ffffff;
+    --border-color:  #e2e5ec;
+    --text-primary:  #1a1d26;
+    --text-secondary:#3d4255;
+    --text-muted:    #6b7189;
+    --accent-red:    #dc2626;
+    --accent-blue:   #2563eb;
+    --accent-green:  #16a34a;
+    --accent-yellow: #ca8a04;
+    --accent-cyan:   #0891b2;
+    --accent-purple: #9333ea;
+    --accent-orange: #ea580c;
+    --shadow-sm:     0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md:     0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg:     0 8px 30px rgba(0, 0, 0, 0.10);
+}
+
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background: var(--bg-body);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* ── Navbar ───────────────────────────────────────────────────── */
+#main-nav {
+    background: var(--bg-nav);
+    border-color: var(--border-color) !important;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    color: var(--text-primary) !important;
+    font-size: 1.1rem;
+}
+
+/* ── Stat Cards ───────────────────────────────────────────────── */
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.stat-sub {
+    font-size: 0.75rem;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+/* ── Chart Cards ──────────────────────────────────────────────── */
+.chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.chart-card .card-header {
+    padding: 1.25rem 1.25rem 0.5rem;
+}
+
+.chart-card .card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* ── Table ────────────────────────────────────────────────────── */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: rgba(37, 99, 235, 0.04);
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.015);
+    font-size: 0.88rem;
+    color: var(--text-primary);
+}
+
+.table thead th {
+    background: #f6f7f9;
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    padding: 0.85rem 1rem;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    border-color: var(--border-color);
+}
+
+.table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.table tbody tr:hover {
+    background: rgba(37, 99, 235, 0.06) !important;
+}
+
+.table tbody tr.active-row {
+    background: rgba(37, 99, 235, 0.08) !important;
+    box-shadow: inset 3px 0 0 var(--accent-blue);
+}
+
+/* ── Anomaly badge ────────────────────────────────────────────── */
+.anomaly-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.anomaly-badge.high {
+    background: rgba(220, 38, 38, 0.10);
+    color: #dc2626;
+}
+
+.anomaly-badge.medium {
+    background: rgba(234, 88, 12, 0.10);
+    color: #ea580c;
+}
+
+.anomaly-badge.low {
+    background: rgba(22, 163, 74, 0.10);
+    color: #16a34a;
+}
+
+/* ── Drill-down button ────────────────────────────────────────── */
+.btn-drilldown {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+}
+
+/* ── Text colour helpers ──────────────────────────────────────── */
+.text-purple { color: var(--accent-purple) !important; }
+
+/* ── Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c8ccd5;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8adb8;
+}
+
+/* ── Loading spinner ──────────────────────────────────────────── */
+.loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(240, 242, 245, 0.7);
+    border-radius: 12px;
+    z-index: 10;
+}
+
+/* ── Responsive tweaks ────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+}
+
+/* ── Tooltip overrides for Chart.js ───────────────────────────── */
+canvas {
+    max-width: 100%;
+}
+
+/* ── Footer ───────────────────────────────────────────────────── */
+footer {
+    border-color: var(--border-color) !important;
+    font-size: 0.82rem;
+}

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Surveillance Dashboard</title>
+
+    <!-- Bootstrap 5 Dark -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ═══════════════════════  NAVBAR  ═══════════════════════ -->
+    <nav class="navbar navbar-expand-lg border-bottom" id="main-nav">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                <i class="bi bi-shield-exclamation fs-4 text-danger"></i>
+                <span class="fw-bold">Market Surveillance</span>
+                <span class="badge bg-danger bg-opacity-25 text-danger ms-2 small">LIVE</span>
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-muted small" id="last-updated"></span>
+                <button class="btn btn-sm btn-outline-info" onclick="refreshAll()">
+                    <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════  MAIN  ═══════════════════════ -->
+    <main class="container-fluid px-4 py-4">
+
+        <!-- ── HERO STAT CARDS ────────────────────────────────── -->
+        <div class="row g-3 mb-4" id="hero-cards">
+            <div class="col-lg-3 col-md-6">
+                <div class="card stat-card border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="stat-label text-muted mb-1">Total Data Points</p>
+                                <h2 class="stat-value mb-0" id="stat-total">—</h2>
+                            </div>
+                            <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                                <i class="bi bi-database"></i>
+                            </div>
+                        </div>
+                        <p class="stat-sub text-muted mb-0 mt-2" id="stat-date-range"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card stat-card border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="stat-label text-muted mb-1">Anomalies Detected</p>
+                                <h2 class="stat-value mb-0 text-danger" id="stat-anomalies">—</h2>
+                            </div>
+                            <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <p class="stat-sub text-muted mb-0 mt-2" id="stat-anomaly-pct"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card stat-card border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="stat-label text-muted mb-1">Tickers Monitored</p>
+                                <h2 class="stat-value mb-0 text-info" id="stat-tickers">—</h2>
+                            </div>
+                            <div class="stat-icon bg-info bg-opacity-10 text-info">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                        </div>
+                        <p class="stat-sub text-muted mb-0 mt-2">Real-time minute bars</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card stat-card border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="stat-label text-muted mb-1">Sectors Tracked</p>
+                                <h2 class="stat-value mb-0 text-warning" id="stat-sectors">—</h2>
+                            </div>
+                            <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                                <i class="bi bi-pie-chart"></i>
+                            </div>
+                        </div>
+                        <p class="stat-sub text-muted mb-0 mt-2">Cross-sector analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ROW 1: SECTOR CHARTS ──────────────────────────── -->
+        <div class="row g-3 mb-4">
+            <div class="col-lg-5">
+                <div class="card chart-card border-0 h-100">
+                    <div class="card-header bg-transparent border-0 pb-0">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-pie-chart me-2 text-warning"></i>
+                            Sector Anomaly Score
+                        </h6>
+                        <small class="text-muted">Composite score (z-score + volatility + volume + price)</small>
+                    </div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <canvas id="chart-sector-radar"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="card chart-card border-0 h-100">
+                    <div class="card-header bg-transparent border-0 pb-0">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-bar-chart me-2 text-info"></i>
+                            Sector Breakdown
+                        </h6>
+                        <small class="text-muted">Average z-score, volatility &amp; volume spike by sector</small>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chart-sector-bar"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ROW 2: TREND + HEATMAP ────────────────────────── -->
+        <div class="row g-3 mb-4">
+            <div class="col-lg-7">
+                <div class="card chart-card border-0 h-100">
+                    <div class="card-header bg-transparent border-0 pb-0">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-graph-up me-2 text-success"></i>
+                            Monthly Anomaly Trend
+                        </h6>
+                        <small class="text-muted">Anomaly count &amp; percentage over time</small>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chart-monthly-trend"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card chart-card border-0 h-100">
+                    <div class="card-header bg-transparent border-0 pb-0">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-clock me-2 text-purple"></i>
+                            Hourly Anomaly Distribution
+                        </h6>
+                        <small class="text-muted">Anomaly concentration by hour of day</small>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chart-hourly-heatmap"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ROW 3: TICKER TABLE ───────────────────────────── -->
+        <div class="row g-3 mb-4">
+            <div class="col-12">
+                <div class="card chart-card border-0">
+                    <div class="card-header bg-transparent border-0 pb-0 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">
+                                <i class="bi bi-table me-2 text-primary"></i>
+                                Per-Ticker Anomaly Summary
+                            </h6>
+                            <small class="text-muted">Click a row to view detailed anomaly timeline</small>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0" id="ticker-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ticker</th>
+                                        <th>Sector</th>
+                                        <th>Avg Z-Score</th>
+                                        <th>Max |Z-Score|</th>
+                                        <th>Avg Volume Spike</th>
+                                        <th>Avg Price Change %</th>
+                                        <th>Anomaly %</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ticker-tbody">
+                                    <tr><td colspan="8" class="text-center text-muted py-4">Loading…</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ROW 4: STOCK DRILL-DOWN ───────────────────────── -->
+        <div class="row g-3 mb-4" id="drilldown-section" style="display: none;">
+            <div class="col-12">
+                <div class="card chart-card border-0">
+                    <div class="card-header bg-transparent border-0 pb-0 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">
+                                <i class="bi bi-activity me-2 text-danger"></i>
+                                <span id="drilldown-title">Stock Anomaly Timeline</span>
+                            </h6>
+                            <small class="text-muted">Composite anomaly score over time — red dots = detected anomalies</small>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="closeDrilldown()">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="card-body" style="height: 350px;">
+                        <canvas id="chart-stock-timeline"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── FOOTER ────────────────────────────────────────── -->
+        <footer class="text-center text-muted py-3 border-top mt-3">
+            <small>
+                <i class="bi bi-shield-check me-1"></i>
+                Market Surveillance Pipeline &mdash; Cassandra &bull; PostgreSQL &bull; Python
+            </small>
+        </footer>
+    </main>
+
+    <!-- ═══════════════════════  SCRIPTS  ═══════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
